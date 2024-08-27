@@ -1,21 +1,30 @@
 {
-  "name": "vue-type-router",
+  "name": "vue-typesafe-router",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.ts",
+  "description": "The easiest way to define type safe router in Vue.",
+  "main": "dist/vue-typesafe-router.cjs.js",
+  "module": "dist/vue-typesafe-router.esm.js",
+  "types": "dist/vue-typesafe-router.d.ts",
+  "keywords": [
+    "vue",
+    "typescript",
+    "router"
+  ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "author": "qinjialei",
   "license": "ISC",
   "packageManager": "pnpm@8.9.0+sha256.8f5264ad1d100da11a6add6bb8a94c6f1e913f9e9261b2a551fabefad2ec0fec",
-  "dependencies": {
-    "vue": "^3.4.38",
-    "vue-router": "^4.4.3"
-  },
   "peerDependencies": {
     "vue": "^3.4.38",
     "vue-router": "^4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2"
   }
 }
