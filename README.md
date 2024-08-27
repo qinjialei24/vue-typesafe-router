@@ -1,11 +1,11 @@
 # vue-type-router
-
+The easiest way to define type safe router in Vue.
 ## Usage
 ### Use the plugin in your `main.ts`
 ```ts
 import {typeRouterPlugin} from "vue-type-router";
 
-createApp(App).use(air).use(router).use(typeRouterPlugin).mount('#app');
+createApp(App).use(typeRouterPlugin).mount('#app');
 ```
 
 ### Define your type safe router
