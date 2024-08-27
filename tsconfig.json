@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+  },
+  "include": ["src/**/*.ts","tests/**/*","rollup.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}
