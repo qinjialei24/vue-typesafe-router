@@ -9,7 +9,8 @@
   "keywords": [
     "vue",
     "typescript",
-    "router"
+    "router",
+    "typesafe"
   ],
   "files": [
     "dist"
