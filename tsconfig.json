@@ -8,7 +8,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*.ts","tests/**/*","rollup.config.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["dist"],
 }

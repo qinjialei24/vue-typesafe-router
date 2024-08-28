@@ -40,7 +40,7 @@ const routes = [
         path: '/',
         component: Home,
     },
-    typeRouterHome.router,
+    typeRouterHome.route,
     {path: '/detail', component: Detail},
 ];
 

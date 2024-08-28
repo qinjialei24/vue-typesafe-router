@@ -1,7 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
 import { readFileSync } from 'fs';
 import dts from 'rollup-plugin-dts';
-
+import terser from '@rollup/plugin-terser';
 const pkg = JSON.parse(readFileSync('./package.json') as unknown as string);
 
 const input = 'src/index.ts';
@@ -10,7 +10,7 @@ const esmOutput = { file: pkg.module, format: 'es' };
 const dtsOutput = { file: pkg.types, format: 'es' };
 
 export default [
-  { input, output: cjsOutput, plugins: [typescript()], external: () => true },
-  { input, output: esmOutput, plugins: [typescript()], external: () => true },
-  { input, output: dtsOutput, plugins: [dts()] },
+  { input, output: cjsOutput, plugins: [typescript(), terser()], external: () => true },
+  { input, output: esmOutput, plugins: [typescript(), terser()], external: () => true },
+  { input, output: dtsOutput, plugins: [dts()]},
 ];

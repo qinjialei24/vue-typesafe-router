@@ -1,5 +1,5 @@
-import type { Component, DefineComponent, App } from "vue";
-import { useRoute, type LocationQueryRaw, type RouteRecordRaw } from "vue-router";
+import { useRoute, LocationQueryRaw, RouteRecordRaw, } from "vue-router";
+import { Component, App, DefineComponent } from 'vue';
 
 export const vueRouterKey = Symbol('vueRouterKey');
 export const typeRouterPlugin = {
@@ -15,14 +15,14 @@ type TypeRouterConfig = {
 };
 
 type TypeRouter<Query extends LocationQueryRaw> = {
-  router: RouteRecordRaw;
+  route: RouteRecordRaw;
   push: (query: Query) => void;
   getQuery: () => Query;
 };
 
 export function createTypeRouter<T extends LocationQueryRaw>(routerConfig: TypeRouterConfig): TypeRouter<T> {
   return {
-    router: routerConfig,
+    route: routerConfig,
     getQuery: () => {
       const route = useRoute();
       return route.query as T;
