@@ -1,9 +1,9 @@
-# vue-type-router
+# vue-typesafe-router
 The easiest way to define type safe router in Vue.
 ## Usage
 ### Use the plugin in your `main.ts`
 ```ts
-import {typeRouterPlugin} from "vue-type-router";
+import {typeRouterPlugin} from "vue-typesafe-router";
 
 createApp(App).use(typeRouterPlugin).mount('#app');
 ```
@@ -20,7 +20,7 @@ type HomeQuery = {
 
 ```ts
 // router.ts
-import {createTypeRouter} from "vue-type-router";
+import {createTypeRouter} from "vue-typesafe-router";
 
 import Detail from './Detail.vue';
 import Home from "./Home.vue";
