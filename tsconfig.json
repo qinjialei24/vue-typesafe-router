@@ -2,14 +2,24 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "strictNullChecks": true
+    "declaration": true,
+    "declarationDir": "./dist",
+    "outDir": "./dist",
+    "strictNullChecks": true,
+    "types": [
+      "node",
+    ]
   },
-  "include": ["src/**/*.ts","tests/**/*","rollup.config.ts"],
-  "exclude": ["dist"],
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*"
+  ],
+  "exclude": [
+    "dist"
+  ]
 }

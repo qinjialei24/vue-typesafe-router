@@ -16,23 +16,27 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist coverage && rollup -c --configPlugin @rollup/plugin-typescript"
+    "build": "rm -rf dist coverage && rollup -c"
   },
   "license": "MIT",
   "packageManager": "pnpm@8.9.0+sha256.8f5264ad1d100da11a6add6bb8a94c6f1e913f9e9261b2a551fabefad2ec0fec",
   "peerDependencies": {
-    "vue": "^3.4.38",
-    "vue-router": "^4.4.3"
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.11.16",
     "@types/vue": "^2.0.0",
+    "@vue/runtime-dom": "^3.4.0",
     "rollup": "^4.21.1",
     "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "rollup-plugin-vue": "^6.0.0",
     "tslib": "^2.7.0",
     "typescript": "^5.5.4",
-    "vue": "^3.4.38"
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.0"
   }
 }

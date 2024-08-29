@@ -1,5 +1,5 @@
 import { useRoute, LocationQueryRaw, RouteRecordRaw, } from "vue-router";
-import { Component, App, DefineComponent } from 'vue';
+import type { Component, App, DefineComponent } from 'vue';
 
 export const vueRouterKey = Symbol('vueRouterKey');
 export const typeRouterPlugin = {
