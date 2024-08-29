@@ -9,7 +9,7 @@ createApp(App).use(typeRouterPlugin).mount('#app');
 ```
 
 ### Define your type safe router
-For example, we want to define a `home` router with query data.
+For example, we want to define a `home` route with query data.
 
 ```ts
 type HomeQuery = {
@@ -20,7 +20,7 @@ type HomeQuery = {
 
 ```ts
 // router.ts
-import {createTypeRouter} from "vue-typesafe-router";
+import {createTypeRoute} from "vue-typesafe-router";
 
 import Detail from './Detail.vue';
 import Home from "./Home.vue";
@@ -30,7 +30,7 @@ type HomeQuery = {
     name?: string;
 };
 
-export const typeRouterHome = createTypeRouter<HomeQuery>({
+export const typeRouteHome = createTypeRoute<HomeQuery>({
     path: '/home',
     component: Home,
 });
@@ -40,7 +40,7 @@ const routes = [
         path: '/',
         component: Home,
     },
-    typeRouterHome.route,
+    typeRouteHome.route,
     {path: '/detail', component: Detail},
 ];
 
@@ -49,7 +49,7 @@ export const router = createRouter({
     routes: routes,
 });
 ```
-### Pass router query data with full type safe
+### Pass route query data with full type safe
 ```vue
 <!--Detail.vue-->
 
@@ -59,20 +59,20 @@ export const router = createRouter({
 </template>
 
 <script setup lang="ts">
-import {typeRouterHome} from "./router.ts";
+import {typeRouteHome} from "./router.ts";
 const goHome = () => {
-  typeRouterHome.push({
+  typeRouteHome.push({
     id: 1,
     name: 'John'
   });
 };
 </script>
 ```
-Now, You can pass query data with full type safe!
+Now, You can pass route query data with full type safe!
 
 ![img_1.png](img_1.png)
 
-### Get router query data with full type safe
+### Get route query data with full type safe
 ```vue
 <!--Home.vue-->
 <template>
@@ -80,8 +80,8 @@ Now, You can pass query data with full type safe!
 </template>
 
 <script setup lang="ts">
-import {typeRouterHome} from "./router.ts";
-const query = typeRouterHome.getQuery();
+import {typeRouteHome} from "./router.ts";
+const query = typeRouteHome.getQuery();
 </script>
 ```
 Now, You can get query data with full type safe!

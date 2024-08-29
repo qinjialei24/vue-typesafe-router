@@ -9,18 +9,18 @@ export const typeRouterPlugin = {
   }
 };
 
-type TypeRouterConfig = {
+type TypeRouteConfig = {
   path: string;
   component: Component | DefineComponent;
 };
 
-type TypeRouter<Query extends LocationQueryRaw> = {
+type TypeRoute<Query extends LocationQueryRaw> = {
   route: RouteRecordRaw;
   push: (query: Query) => void;
   getQuery: () => Query;
 };
 
-export function createTypeRouter<T extends LocationQueryRaw>(routerConfig: TypeRouterConfig): TypeRouter<T> {
+export function createTypeRoute<T extends LocationQueryRaw>(routerConfig: TypeRouteConfig): TypeRoute<T> {
   return {
     route: routerConfig,
     getQuery: () => {
