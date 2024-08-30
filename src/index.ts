@@ -1,4 +1,6 @@
-import { useRoute, LocationQueryRaw, RouteRecordRaw, } from "vue-router";
+import type { LocationQueryRaw, RouteRecordRaw, } from "vue-router";
+import { useRoute } from "vue-router";
+
 import type { Component, App, DefineComponent } from 'vue';
 
 export const vueRouterKey = Symbol('vueRouterKey');
