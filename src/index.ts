@@ -20,9 +20,9 @@ type TypeRoute<Query extends LocationQueryRaw> = {
   getQuery: () => Query;
 };
 
-export function createTypeRoute<T extends LocationQueryRaw>(routerConfig: TypeRouteConfig): TypeRoute<T> {
+export function createTypeRoute<T extends LocationQueryRaw>(routeConfig: TypeRouteConfig): TypeRoute<T> {
   return {
-    route: routerConfig,
+    route: routeConfig,
     getQuery: () => {
       const route = useRoute();
       return route.query as T;
@@ -30,7 +30,7 @@ export function createTypeRoute<T extends LocationQueryRaw>(routerConfig: TypeRo
     push: (query: T) => {
       const vueRouter = window[vueRouterKey as any] as any;
       vueRouter.push({
-        path: routerConfig.path,
+        path: routeConfig.path,
         query
       });
     }
