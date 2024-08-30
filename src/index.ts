@@ -1,40 +1,40 @@
 import type { LocationQueryRaw, RouteRecordRaw, } from "vue-router";
-import { useRoute, useRouter } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 import type { Component, App, DefineComponent } from 'vue';
 
 export const vueRouterKey = Symbol('vueRouterKey');
-export const typeRouterPlugin = {
+export const typesafeRouterPlugin = {
   install(app: App) {
     //@ts-ignore
     window[vueRouterKey] = app.config.globalProperties.$router;
   }
 };
 
-type TypeRouteConfig = {
+type TypesafeRouteConfig = {
   path: string;
   component: Component | DefineComponent;
 };
 
-type TypeRoute<Query extends LocationQueryRaw> = {
+type TypesafeRoute<Query extends LocationQueryRaw> = {
   config: RouteRecordRaw;
   push: (query: Query) => void;
   getQuery: () => Query;
 };
 
-export function createTypesafeRoute<T extends Record<string, any>>(routeConfig: { path: string; component: any }) {
+export function createTypesafeRoute<T extends LocationQueryRaw>(routeConfig: TypesafeRouteConfig): TypesafeRoute<T> {
   return {
     config: routeConfig,
+    getQuery: () => {
+      const route = useRoute();
+      return route.query as T;
+    },
     push: (query: T) => {
-      const router = useRouter()
-      router.push({
+      const vueRouter = window[vueRouterKey as any] as any;
+      vueRouter.push({
         path: routeConfig.path,
         query
-      })
-    },
-    getQuery: () => {
-      const router = useRouter()
-      return router.currentRoute.value.query as T
+      });
     }
   }
 }
