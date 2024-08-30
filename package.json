@@ -19,7 +19,8 @@
     "build": "rm -rf dist && vite build",
     "test": "vitest",
     "test:ci": "vitest run",
-    "release": "node scripts/release.js"
+    "release": "node scripts/release.js",
+    "bump": "node scripts/bump.js"
   },
   "license": "MIT",
   "packageManager": "pnpm@8.9.0+sha256.8f5264ad1d100da11a6add6bb8a94c6f1e913f9e9261b2a551fabefad2ec0fec",

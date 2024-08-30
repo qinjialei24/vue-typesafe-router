@@ -1,5 +1,6 @@
 const { execSync } = require('child_process');
 const readline = require('readline');
+const fs = require('fs');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -10,8 +11,24 @@ function exec(command) {
   execSync(command, { stdio: 'inherit' });
 }
 
+function getCurrentVersion() {
+  const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+  return packageJson.version;
+}
+
 function updateVersion(type) {
   exec(`npm version ${type} --no-git-tag-version`);
+}
+
+function commitPackageChanges() {
+  const newVersion = getCurrentVersion();
+  const commitMessage = `release: v${newVersion}`;
+  try {
+    exec('git add package.json');
+    exec(`git commit -m "${commitMessage}"`);
+  } catch (error) {
+    console.log('No changes to package.json needed.');
+  }
 }
 
 function buildPackage() {
@@ -20,24 +37,6 @@ function buildPackage() {
 
 function publishToNpm() {
   exec('npm publish');
-}
-
-function commitPackageChanges() {
-  try {
-    exec('git add package.json');
-    exec('git commit -m "Update package.json version"');
-  } catch (error) {
-    console.log('No changes to package.json needed.');
-  }
-}
-
-function checkWorkingDirectory() {
-  try {
-    execSync('git diff-index --quiet HEAD --');
-    return true;
-  } catch (error) {
-    return false;
-  }
 }
 
 function release(type) {
@@ -90,7 +89,8 @@ function continueRelease(type) {
     // 发布到 npm
     publishToNpm();
 
-    console.log(`Successfully released version ${type}`);
+    const newVersion = getCurrentVersion();
+    console.log(`Successfully released version v${newVersion}`);
     rl.close();
   } catch (error) {
     console.error('Release failed:', error.message);
@@ -104,6 +104,6 @@ rl.question('Enter release type (patch/minor/major): ', (answer) => {
     release(answer);
   } else {
     console.log('Invalid release type. Please enter patch, minor, or major.');
+    rl.close();
   }
-  rl.close();
 });
