@@ -1,7 +1,7 @@
 {
   "name": "vue-typesafe-router",
   "author": "qinjialei",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "The easiest way to define type safe router in Vue.",
   "main": "dist/vue-typesafe-router.cjs.js",
   "module": "dist/vue-typesafe-router.es.js",
