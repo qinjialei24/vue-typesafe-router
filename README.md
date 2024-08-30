@@ -70,7 +70,7 @@ const goHome = () => {
 ```
 Now, You can pass route query data with full type safe!
 
-![img_1.png](img_1.png)
+![img_1.png](./assets/img_1.png)
 
 ### Get route query data with full type safe
 ```vue
@@ -86,4 +86,4 @@ const query = homeRoute.getQuery();
 ```
 Now, You can get query data with full type safe!
 
-![img.png](img.png)
+![img.png](./assets/img.png)
