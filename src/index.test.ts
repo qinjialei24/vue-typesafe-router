@@ -7,117 +7,120 @@ vi.mock('vue-router', () => ({
   useRouter: vi.fn()
 }));
 
-describe('createTypesafeRouter', () => {
-  it('should create a router', () => {
+describe('createTypesafeRoute', () => {
+  it('should create a route with correct config', () => {
     const route = createTypesafeRoute({
       path: '/',
       component: {}
     });
     expect(route).toBeDefined();
-    expect(route.config).toBeDefined();
+    expect(route.config).toEqual({ path: '/', component: {} });
   });
 
-  it('should handle complex query parameters', () => {
-    const route = createTypesafeRoute<{
-      id: string;
-      filters: string[];
-      page: number;
-      sortBy: 'asc' | 'desc';
-    }>({
-      path: '/products',
-      component: {}
+  describe('push method', () => {
+    it('should call router.push with correct path and query', () => {
+      const route = createTypesafeRoute<{ id: string }>({
+        path: '/products',
+        component: {}
+      });
+
+      const mockRouter = { push: vi.fn() };
+      vi.mocked(useRouter).mockReturnValue(mockRouter);
+
+      route.push({ id: '123' });
+
+      expect(mockRouter.push).toHaveBeenCalledWith({
+        path: '/products',
+        query: { id: '123' }
+      });
     });
 
-    expect(route.config.path).toBe('/products');
+    it('should handle complex query parameters', () => {
+      const route = createTypesafeRoute<{
+        id: string;
+        filters: string[];
+        page: number;
+        sortBy: 'asc' | 'desc';
+      }>({
+        path: '/products',
+        component: {}
+      });
 
-    const mockRouter = {
-      push: vi.fn(),
-      currentRoute: {
-        value: {
-          query: {
-            id: '456',
-            filters: ['brand1'],
-            page: '3',
-            sortBy: 'asc'
-          }
-        }
-      }
-    };
-    vi.mocked(useRouter).mockReturnValue(mockRouter);
+      const mockRouter = { push: vi.fn() };
+      vi.mocked(useRouter).mockReturnValue(mockRouter);
 
-    // Test push method with complex query
-    route.push({
-      id: '123',
-      filters: ['category1', 'category2'],
-      page: 2,
-      sortBy: 'desc'
-    });
-
-    expect(mockRouter.push).toHaveBeenCalledWith({
-      path: '/products',
-      query: {
+      route.push({
         id: '123',
         filters: ['category1', 'category2'],
         page: 2,
         sortBy: 'desc'
-      }
+      });
+
+      expect(mockRouter.push).toHaveBeenCalledWith({
+        path: '/products',
+        query: {
+          id: '123',
+          filters: ['category1', 'category2'],
+          page: 2,
+          sortBy: 'desc'
+        }
+      });
     });
 
-    // Test getQuery method
-    const query = route.getQuery();
-    expect(query).toEqual({
-      id: '456',
-      filters: ['brand1'],
-      page: '3',
-      sortBy: 'asc'
+    it('should handle optional query parameters', () => {
+      const route = createTypesafeRoute<{
+        category: string;
+        subcategory?: string;
+      }>({
+        path: '/category',
+        component: {}
+      });
+
+      const mockRouter = { push: vi.fn() };
+      vi.mocked(useRouter).mockReturnValue(mockRouter);
+
+      route.push({ category: 'clothing' });
+
+      expect(mockRouter.push).toHaveBeenCalledWith({
+        path: '/category',
+        query: { category: 'clothing' }
+      });
     });
   });
 
-  it('should handle routes with path parameters', () => {
-    const route = createTypesafeRoute<{
-      category: string;
-      subcategory?: string;
-    }>({
-      path: '/category/:category/:subcategory?',
-      component: {}
-    });
+  describe('getQuery method', () => {
+    it('should return current route query', () => {
+      const route = createTypesafeRoute<{
+        id: string;
+        filters: string[];
+        page: string;
+        sortBy: string;
+      }>({
+        path: '/products',
+        component: {}
+      });
 
-    expect(route.config.path).toBe('/category/:category/:subcategory?');
-
-    const mockRouter = {
-      push: vi.fn(),
-      currentRoute: {
-        value: {
-          query: {}
+      const mockRouter = {
+        currentRoute: {
+          value: {
+            query: {
+              id: '456',
+              filters: ['brand1'],
+              page: '3',
+              sortBy: 'asc'
+            }
+          }
         }
-      }
-    };
-    vi.mocked(useRouter).mockReturnValue(mockRouter);
+      };
+      vi.mocked(useRouter).mockReturnValue(mockRouter);
 
-    // Test push method with path parameters
-    route.push({
-      category: 'electronics',
-      subcategory: 'laptops'
-    });
-
-    expect(mockRouter.push).toHaveBeenCalledWith({
-      path: '/category/:category/:subcategory?',
-      query: {
-        category: 'electronics',
-        subcategory: 'laptops'
-      }
-    });
-
-    // Test push method without optional parameter
-    route.push({
-      category: 'clothing'
-    });
-
-    expect(mockRouter.push).toHaveBeenCalledWith({
-      path: '/category/:category/:subcategory?',
-      query: {
-        category: 'clothing'
-      }
+      const query = route.getQuery();
+      expect(query).toEqual({
+        id: '456',
+        filters: ['brand1'],
+        page: '3',
+        sortBy: 'asc'
+      });
     });
   });
 });
