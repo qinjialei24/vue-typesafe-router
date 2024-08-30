@@ -1,13 +1,21 @@
-import { describe, it, expect, vi } from 'vitest';
-import { createTypesafeRoute } from './index';
-import { Router, useRouter } from 'vue-router';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { createTypesafeRoute, vueRouterKey } from './index';
+import { Router, useRouter, useRoute } from 'vue-router';
 
 // Mock vue-router
 vi.mock('vue-router', () => ({
-  useRouter: vi.fn()
+  useRouter: vi.fn(),
+  useRoute: vi.fn()
 }));
 
 describe('createTypesafeRoute', () => {
+  beforeEach(() => {
+    // Reset mocks before each test
+    vi.resetAllMocks();
+    // Mock window object
+    vi.stubGlobal('window', {});
+  });
+
   it('should create a route with correct config', () => {
     const route = createTypesafeRoute({
       path: '/',
@@ -24,12 +32,14 @@ describe('createTypesafeRoute', () => {
         component: {}
       });
 
-      const mockRouter = { push: vi.fn() } as unknown as Router;
-      vi.mocked(useRouter).mockReturnValue(mockRouter);
+      const mockPush = vi.fn();
+      const mockRouter = { push: mockPush };
+      // @ts-ignore
+      window[vueRouterKey] = mockRouter;
 
       route.push({ id: '123' });
 
-      expect(mockRouter.push).toHaveBeenCalledWith({
+      expect(mockPush).toHaveBeenCalledWith({
         path: '/products',
         query: { id: '123' }
       });
@@ -46,8 +56,10 @@ describe('createTypesafeRoute', () => {
         component: {}
       });
 
-      const mockRouter = { push: vi.fn() } as unknown as Router;
-      vi.mocked(useRouter).mockReturnValue(mockRouter);
+      const mockPush = vi.fn();
+      const mockRouter = { push: mockPush };
+      // @ts-ignore
+      window[vueRouterKey] = mockRouter;
 
       route.push({
         id: '123',
@@ -56,7 +68,7 @@ describe('createTypesafeRoute', () => {
         sortBy: 'desc'
       });
 
-      expect(mockRouter.push).toHaveBeenCalledWith({
+      expect(mockPush).toHaveBeenCalledWith({
         path: '/products',
         query: {
           id: '123',
@@ -76,12 +88,14 @@ describe('createTypesafeRoute', () => {
         component: {}
       });
 
-      const mockRouter = { push: vi.fn() } as unknown as Router;
-      vi.mocked(useRouter).mockReturnValue(mockRouter);
+      const mockPush = vi.fn();
+      const mockRouter = { push: mockPush };
+      // @ts-ignore
+      window[vueRouterKey] = mockRouter;
 
       route.push({ category: 'clothing' });
 
-      expect(mockRouter.push).toHaveBeenCalledWith({
+      expect(mockPush).toHaveBeenCalledWith({
         path: '/category',
         query: { category: 'clothing' }
       });
@@ -100,19 +114,14 @@ describe('createTypesafeRoute', () => {
         component: {}
       });
 
-      const mockRouter = {
-        currentRoute: {
-          value: {
-            query: {
-              id: '456',
-              filters: ['brand1'],
-              page: '3',
-              sortBy: 'asc'
-            }
-          }
+      vi.mocked(useRoute).mockReturnValue({
+        query: {
+          id: '456',
+          filters: ['brand1'],
+          page: '3',
+          sortBy: 'asc'
         }
-      };
-      vi.mocked(useRouter).mockReturnValue(mockRouter as unknown as Router);
+      } as any);
 
       const query = route.getQuery();
       expect(query).toEqual({
