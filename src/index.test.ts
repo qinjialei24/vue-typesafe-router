@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createTypesafeRoute } from './index';
-import { useRouter } from 'vue-router';
+import { Router, useRouter } from 'vue-router';
 
 // Mock vue-router
 vi.mock('vue-router', () => ({
@@ -24,7 +24,7 @@ describe('createTypesafeRoute', () => {
         component: {}
       });
 
-      const mockRouter = { push: vi.fn() };
+      const mockRouter = { push: vi.fn() } as unknown as Router;
       vi.mocked(useRouter).mockReturnValue(mockRouter);
 
       route.push({ id: '123' });
@@ -46,7 +46,7 @@ describe('createTypesafeRoute', () => {
         component: {}
       });
 
-      const mockRouter = { push: vi.fn() };
+      const mockRouter = { push: vi.fn() } as unknown as Router;
       vi.mocked(useRouter).mockReturnValue(mockRouter);
 
       route.push({
@@ -76,7 +76,7 @@ describe('createTypesafeRoute', () => {
         component: {}
       });
 
-      const mockRouter = { push: vi.fn() };
+      const mockRouter = { push: vi.fn() } as unknown as Router;
       vi.mocked(useRouter).mockReturnValue(mockRouter);
 
       route.push({ category: 'clothing' });
@@ -112,7 +112,7 @@ describe('createTypesafeRoute', () => {
           }
         }
       };
-      vi.mocked(useRouter).mockReturnValue(mockRouter);
+      vi.mocked(useRouter).mockReturnValue(mockRouter as unknown as Router);
 
       const query = route.getQuery();
       expect(query).toEqual({
