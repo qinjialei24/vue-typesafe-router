@@ -18,6 +18,8 @@
   "scripts": {
     "build": "rm -rf dist && vite build",
     "test": "vitest",
+    "test:ci": "vitest run",
+    "release": "node scripts/release.js",
     "prepublishOnly": "pnpm run build"
   },
   "license": "MIT",
