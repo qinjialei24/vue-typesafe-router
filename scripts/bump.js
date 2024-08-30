@@ -31,12 +31,22 @@ function commitPackageChanges() {
   }
 }
 
+function pushChanges() {
+  try {
+    exec('git push');
+    console.log('Successfully pushed changes to remote repository.');
+  } catch (error) {
+    console.error('Failed to push changes:', error.message);
+  }
+}
+
 function bumpVersion(type) {
   try {
     updateVersion(type);
     commitPackageChanges();
+    pushChanges();
     const newVersion = getCurrentVersion();
-    console.log(`Successfully bumped version to v${newVersion}`);
+    console.log(`Successfully bumped version to v${newVersion} and pushed changes.`);
   } catch (error) {
     console.error('Version bump failed:', error.message);
   }
