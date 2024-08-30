@@ -30,7 +30,7 @@ type HomeQuery = {
     name?: string;
 };
 
-export const typeRouteHome = createTypeRoute<HomeQuery>({
+export const homeRoute = createTypeRoute<HomeQuery>({
     path: '/home',
     component: Home,
 });
@@ -40,7 +40,7 @@ const routes = [
         path: '/',
         component: Home,
     },
-    typeRouteHome.route,
+    homeRoute.config,
     {path: '/detail', component: Detail},
 ];
 
@@ -59,9 +59,9 @@ export const router = createRouter({
 </template>
 
 <script setup lang="ts">
-import {typeRouteHome} from "./router.ts";
+import {homeRoute} from "./router.ts";
 const goHome = () => {
-  typeRouteHome.push({
+  homeRoute.push({
     id: 1,
     name: 'John'
   });
@@ -80,8 +80,8 @@ Now, You can pass route query data with full type safe!
 </template>
 
 <script setup lang="ts">
-import {typeRouteHome} from "./router.ts";
-const query = typeRouteHome.getQuery();
+import {homeRoute} from "./router.ts";
+const query = homeRoute.getQuery();
 </script>
 ```
 Now, You can get query data with full type safe!
