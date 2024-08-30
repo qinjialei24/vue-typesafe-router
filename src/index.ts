@@ -1,5 +1,5 @@
 import type { LocationQueryRaw, RouteRecordRaw, } from "vue-router";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import type { Component, App, DefineComponent } from 'vue';
 
@@ -17,24 +17,24 @@ type TypeRouteConfig = {
 };
 
 type TypeRoute<Query extends LocationQueryRaw> = {
-  route: RouteRecordRaw;
+  config: RouteRecordRaw;
   push: (query: Query) => void;
   getQuery: () => Query;
 };
 
-export function createTypeRoute<T extends LocationQueryRaw>(routeConfig: TypeRouteConfig): TypeRoute<T> {
+export function createTypesafeRoute<T extends Record<string, any>>(routeConfig: { path: string; component: any }) {
   return {
-    route: routeConfig,
-    getQuery: () => {
-      const route = useRoute();
-      return route.query as T;
-    },
+    config: routeConfig,
     push: (query: T) => {
-      const vueRouter = window[vueRouterKey as any] as any;
-      vueRouter.push({
+      const router = useRouter()
+      router.push({
         path: routeConfig.path,
         query
-      });
+      })
+    },
+    getQuery: () => {
+      const router = useRouter()
+      return router.currentRoute.value.query as T
     }
-  };
+  }
 }
