@@ -1,5 +1,5 @@
 # vue-typesafe-router
-The easiest way to define type safe router in Vue.
+The easiest way to define typesafe router in Vue.
 ## Usage
 ### Use the plugin in your `main.ts`
 ```ts
