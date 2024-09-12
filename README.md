@@ -1,6 +1,6 @@
 # vue-typesafe-router
 
-The easiest way to define typesafe router in Vue. Just 2 api to define your routes, and the rest is done for you.
+The easiest way to define typesafe router in Vue3. Just 2 api to define your routes, and the rest is done for you.
 ![image](./assets/code.png)
 
 ## Install
