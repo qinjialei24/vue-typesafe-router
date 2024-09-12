@@ -3,7 +3,7 @@
 [中文文档](./README.zh-CN.md) | [English](./README.md)
 
 最简单的在 Vue3 中定义类型安全路由的方式。只需 2 个 api 即可定义你的类型安全路由
-![image](./assets/code.png)
+![image](https://raw.githubusercontent.com/qinjialei24/vue-typesafe-router/main/assets/code.png)
 
 ## 安装
 
