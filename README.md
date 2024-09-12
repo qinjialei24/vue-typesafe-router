@@ -2,7 +2,8 @@
 
 [中文文档](./README.zh-CN.md) | [English](./README.md)
 
-The easiest way to define typesafe router in Vue3. Just 2 api to define your routes, and the rest is done for you.
+The easiest way to define full typesafe router in Vue.js 3.x. just 2 api you need to use. and the React.js version is also available here (https://github.com/qinjialei24/react-typesafe-router).
+
 ![image](https://raw.githubusercontent.com/qinjialei24/vue-typesafe-router/main/assets/code.png)
 
 ## Install

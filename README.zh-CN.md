@@ -2,7 +2,11 @@
 
 [中文文档](./README.zh-CN.md) | [English](./README.md)
 
-最简单的在 Vue3 中定义类型安全路由的方式。只需 2 个 api 即可定义你的类型安全路由
+
+在 Vue.js 3.x 中定义完全类型安全的路由最简单的方式，你只需要使用 2 个 api。React.js 版本在这里 (https://github.com/qinjialei24/react-typesafe-router).
+
+
+
 ![image](https://raw.githubusercontent.com/qinjialei24/vue-typesafe-router/main/assets/code.png)
 
 ## 安装
