@@ -1,16 +1,21 @@
 {
   "name": "vue-typesafe-router",
   "author": "qinjialei",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The easiest way to define type safe router in Vue.",
-  "main": "dist/vue-typesafe-router.cjs.js",
-  "module": "dist/vue-typesafe-router.es.js",
-  "types": "dist/vue-typesafe-router.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "keywords": [
     "vue",
     "typescript",
     "router",
-    "typesafe"
+    "typesafe",
+    "vue-router",
+    "vue3"
   ],
   "files": [
     "dist"
