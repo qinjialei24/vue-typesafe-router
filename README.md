@@ -101,3 +101,4 @@ const query = homeRoute.getQuery();
 ```
 
 Now, You can get query data with full typesafe!
+![img.png](./assets/img.png)
