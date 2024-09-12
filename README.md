@@ -1,6 +1,6 @@
 # vue-typesafe-router
 
-The easiest way to define type safe router in Vue.
+The easiest way to define typesafe router in Vue.
 
 ## Usage
 
@@ -101,5 +101,3 @@ const query = homeRoute.getQuery();
 ```
 
 Now, You can get query data with full typesafe!
-
-![img.png](./assets/img.png)
