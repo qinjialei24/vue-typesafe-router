@@ -3,7 +3,7 @@
 The easiest way to define typesafe router in Vue. Just 2 api to define your routes, and the rest is done for you.
 ![image](./assets/code.png)
 
-## Usage
+## Install
 
 ```bash
 npm i vue-typesafe-router
