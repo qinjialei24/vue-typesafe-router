@@ -23,6 +23,7 @@
   "scripts": {
     "build": "rm -rf dist && vite build",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:ci": "vitest run",
     "release": "node scripts/release.js",
     "bump": "node scripts/bump.js"
@@ -36,12 +37,13 @@
   "devDependencies": {
     "@types/node": "^22.5.1",
     "@vitejs/plugin-vue": "^5.0.0",
+    "@vitest/coverage-v8": "^2.1.0",
     "@vue/test-utils": "^2.4.0",
     "jsdom": "^25.0.0",
     "typescript": "^5.5.4",
     "vite": "^5.0.0",
     "vite-plugin-dts": "^3.0.0",
-    "vitest": "^1.0.0",
+    "vitest": "^2.1.0",
     "vue": "^3.4.0",
     "vue-router": "^4.2.0"
   }
