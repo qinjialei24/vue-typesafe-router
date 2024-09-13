@@ -11,6 +11,7 @@ export default defineConfig({
     }),
   ],
   build: {
+    minify: false, // 禁用压缩
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "VueTypesafeRouter",
