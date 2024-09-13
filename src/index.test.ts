@@ -1,135 +1,170 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createTypesafeRoute, vueRouterKey } from './index';
-import { Router, useRouter, useRoute } from 'vue-router';
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import {
+  createTypesafeRoute,
+  getPath,
+  vueRouterKey,
+  typesafeRouterPlugin,
+} from "./";
+import { useRoute } from "vue-router";
 
-// Mock vue-router
-vi.mock('vue-router', () => ({
-  useRouter: vi.fn(),
-  useRoute: vi.fn()
+vi.mock("vue-router", () => ({
+  useRoute: vi.fn(),
 }));
 
-describe('createTypesafeRoute', () => {
+describe("Typesafe Router", () => {
   beforeEach(() => {
-    // Reset mocks before each test
-    vi.resetAllMocks();
-    // Mock window object
-    vi.stubGlobal('window', {});
+    vi.clearAllMocks();
+    // @ts-ignore
+    delete window[vueRouterKey];
   });
 
-  it('should create a route with correct config', () => {
-    const route = createTypesafeRoute({
-      path: '/',
-      component: {}
+  describe("createTypesafeRoute", () => {
+    it("should create a TypesafeRoute object", () => {
+      const route = createTypesafeRoute({
+        path: "/test",
+        component: {} as any,
+      });
+
+      expect(route).toHaveProperty("config");
+      expect(route).toHaveProperty("getQuery");
+      expect(route).toHaveProperty("getDynamicParams");
+      expect(route).toHaveProperty("pushQuery");
+      expect(route).toHaveProperty("pushDynamicParamsAndQuery");
+      expect(route).toHaveProperty("pushDynamicParams");
     });
-    expect(route).toBeDefined();
-    expect(route.config).toEqual({ path: '/', component: {} });
+
+    it("getQuery should return correct query parameters", () => {
+      const mockRoute = {
+        query: { foo: "bar" },
+      };
+      vi.mocked(useRoute).mockReturnValue(mockRoute as any);
+
+      const route = createTypesafeRoute({
+        path: "/test",
+        component: {} as any,
+      });
+
+      expect(route.getQuery()).toEqual({ foo: "bar" });
+    });
+
+    it("getDynamicParams should return correct dynamic parameters", () => {
+      const mockRoute = {
+        params: { id: "123" },
+      };
+      vi.mocked(useRoute).mockReturnValue(mockRoute as any);
+
+      const route = createTypesafeRoute({
+        path: "/test/:id",
+        component: {} as any,
+      });
+
+      expect(route.getDynamicParams()).toEqual({ id: "123" });
+    });
+
+    it("push should call vueRouter.push method", () => {
+      const mockPush = vi.fn();
+      // @ts-ignore
+      window[vueRouterKey] = { push: mockPush };
+
+      const route = createTypesafeRoute({
+        path: "/test",
+        component: {} as any,
+      });
+
+      route.pushQuery({ foo: "bar" });
+
+      expect(mockPush).toHaveBeenCalledWith({
+        path: "/test",
+        query: { foo: "bar" },
+      });
+    });
+
+    it("pushDynamicParamsAndQuery should call vueRouter.push method with correct params", () => {
+      const mockPush = vi.fn();
+      // @ts-ignore
+      window[vueRouterKey] = { push: mockPush };
+
+      const route = createTypesafeRoute<any, { id: string }>({
+        path: "/user/:id",
+        component: {} as any,
+      });
+
+      route.pushDynamicParamsAndQuery({ foo: "bar" }, { id: "123" });
+
+      expect(mockPush).toHaveBeenCalledWith({
+        path: "/user/123",
+        query: { foo: "bar" },
+      });
+    });
+
+    it("pushDynamicParams should call vueRouter.push method with correct params", () => {
+      const mockPush = vi.fn();
+      // @ts-ignore
+      window[vueRouterKey] = { push: mockPush };
+
+      const route = createTypesafeRoute<any, { id: string }>({
+        path: "/user/:id",
+        component: {} as any,
+      });
+
+      route.pushDynamicParams({ id: "123" });
+
+      expect(mockPush).toHaveBeenCalledWith("/user/123");
+    });
   });
 
-  describe('push method', () => {
-    it('should call router.push with correct path and query', () => {
-      const route = createTypesafeRoute<{ id: string }>({
-        path: '/products',
-        component: {}
-      });
+  describe("getPath", () => {
+    it("should correctly replace dynamic parameters", () => {
+      const path = "/user/:id/profile/:tab";
+      const params = { id: "123", tab: "info" };
 
-      const mockPush = vi.fn();
-      const mockRouter = { push: mockPush };
-      // @ts-ignore
-      window[vueRouterKey] = mockRouter;
+      const result = getPath(path, params);
 
-      route.push({ id: '123' });
-
-      expect(mockPush).toHaveBeenCalledWith({
-        path: '/products',
-        query: { id: '123' }
-      });
+      expect(result).toBe("/user/123/profile/info");
     });
 
-    it('should handle complex query parameters', () => {
-      const route = createTypesafeRoute<{
-        id: string;
-        filters: string[];
-        page: number;
-        sortBy: 'asc' | 'desc';
-      }>({
-        path: '/products',
-        component: {}
-      });
+    it("should retain original placeholders when params are missing", () => {
+      const path = "/user/:id/profile/:tab";
+      const params = { id: "123" };
 
-      const mockPush = vi.fn();
-      const mockRouter = { push: mockPush };
-      // @ts-ignore
-      window[vueRouterKey] = mockRouter;
+      const result = getPath(path, params);
 
-      route.push({
-        id: '123',
-        filters: ['category1', 'category2'],
-        page: 2,
-        sortBy: 'desc'
-      });
-
-      expect(mockPush).toHaveBeenCalledWith({
-        path: '/products',
-        query: {
-          id: '123',
-          filters: ['category1', 'category2'],
-          page: 2,
-          sortBy: 'desc'
-        }
-      });
+      expect(result).toBe("/user/123/profile/:tab");
     });
 
-    it('should handle optional query parameters', () => {
-      const route = createTypesafeRoute<{
-        category: string;
-        subcategory?: string;
-      }>({
-        path: '/category',
-        component: {}
-      });
+    it("should correctly handle paths without dynamic parameters", () => {
+      const path = "/user/profile";
+      const params = { id: "123" };
 
-      const mockPush = vi.fn();
-      const mockRouter = { push: mockPush };
-      // @ts-ignore
-      window[vueRouterKey] = mockRouter;
+      const result = getPath(path, params);
 
-      route.push({ category: 'clothing' });
+      expect(result).toBe("/user/profile");
+    });
 
-      expect(mockPush).toHaveBeenCalledWith({
-        path: '/category',
-        query: { category: 'clothing' }
-      });
+    it("should correctly handle empty paths", () => {
+      const path = "";
+      const params = { id: "123" };
+
+      const result = getPath(path, params);
+
+      expect(result).toBe("");
     });
   });
 
-  describe('getQuery method', () => {
-    it('should return current route query', () => {
-      const route = createTypesafeRoute<{
-        id: string;
-        filters: string[];
-        page: string;
-        sortBy: string;
-      }>({
-        path: '/products',
-        component: {}
-      });
+  describe("typesafeRouterPlugin", () => {
+    it("should correctly install the plugin and set global property", () => {
+      const mockApp = {
+        config: {
+          globalProperties: {
+            $router: { foo: "bar" },
+          },
+        },
+      };
 
-      vi.mocked(useRoute).mockReturnValue({
-        query: {
-          id: '456',
-          filters: ['brand1'],
-          page: '3',
-          sortBy: 'asc'
-        }
-      } as any);
+      typesafeRouterPlugin.install(mockApp as any);
 
-      const query = route.getQuery();
-      expect(query).toEqual({
-        id: '456',
-        filters: ['brand1'],
-        page: '3',
-        sortBy: 'asc'
-      });
+      // @ts-ignore
+      expect(window[vueRouterKey]).toEqual({ foo: "bar" });
     });
   });
 });
