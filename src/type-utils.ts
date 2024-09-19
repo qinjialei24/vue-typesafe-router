@@ -20,6 +20,6 @@ function test<T extends string>(path: T) {
 }
 
 // 使用示例
-const route = test("123/:id2/:id3");
-route.push({ params: { id2: "123", id3: "123" } }); // 正确
+const route = test("123/:id/:id2");
+route.push({ params: { id: "123", id2: "123", } }); // 正确
 // route.push({ params: { foo: "bar" } }); // 类型错误
