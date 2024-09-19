@@ -32,14 +32,14 @@ type TypesafeRoute<
 };
 
 export function createTypesafeRoute<
-  T extends LocationQueryRaw,
+  Query extends LocationQueryRaw,
   Params extends Record<string, string> = Record<string, never>
->(routeConfig: TypesafeRouteConfig): TypesafeRoute<T, Params> {
+>(routeConfig: TypesafeRouteConfig): TypesafeRoute<Query, Params> {
   return {
     config: routeConfig,
     getQuery: () => {
       const route = useRoute();
-      return route.query as T;
+      return route.query as Query;
     },
     getParams: () => {
       const route = useRoute();
