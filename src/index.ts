@@ -16,6 +16,11 @@ type TypesafeRouteConfig = {
   component: Component | DefineComponent;
 };
 
+interface PushParams {
+  params?: Record<string, string>;
+  query?: LocationQueryRaw;
+};
+
 type TypesafeRoute<
   Query extends LocationQueryRaw,
   Params extends Record<string, string> = Record<string, never>
@@ -23,12 +28,7 @@ type TypesafeRoute<
   config: RouteRecordRaw;
   getQuery: () => Query;
   getParams: () => Params;
-  pushQuery: (query: Query) => void;
-  pushParamsAndQuery: (
-    query: Query,
-    params: Params
-  ) => void;
-  pushParams: (params: Params) => void;
+  push: (pushParams: PushParams) => any;
 };
 
 export function createTypesafeRoute<
@@ -45,25 +45,22 @@ export function createTypesafeRoute<
       const route = useRoute();
       return route.params as Params;
     },
-    pushQuery: (query: T) => {
+    push: ({params, query}: PushParams) => {
       const vueRouter = window[vueRouterKey as any] as any;
-      vueRouter.push({
-        path: routeConfig.path,
-        query,
-      });
-    },
-    pushParamsAndQuery: (query: T, params: Params) => {
-      const vueRouter = window[vueRouterKey as any] as any;
-      const path = getPath(routeConfig.path, params);
-      vueRouter.push({
-        path,
-        query,
-      });
-    },
-    pushParams: (params: Params) => {
-      const vueRouter = window[vueRouterKey as any] as any;
-      const path = getPath(routeConfig.path, params);
-      vueRouter.push(path);
+      if (params) {
+        const path = getPath(routeConfig.path, params);
+        if (query) {
+          return vueRouter.push({ path, query });
+        }
+        return vueRouter.push(path);
+      }
+      if (query) {
+        return vueRouter.push({
+          path: routeConfig.path,
+          query,
+        });
+      }
+      return vueRouter.push(routeConfig.path);  
     },
   };
 }

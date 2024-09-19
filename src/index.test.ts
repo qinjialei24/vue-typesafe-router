@@ -28,9 +28,7 @@ describe("Typesafe Router", () => {
       expect(route).toHaveProperty("config");
       expect(route).toHaveProperty("getQuery");
       expect(route).toHaveProperty("getParams");
-      expect(route).toHaveProperty("pushQuery");
-      expect(route).toHaveProperty("pushParamsAndQuery");
-      expect(route).toHaveProperty("pushParams");
+      expect(route).toHaveProperty("push");
     });
 
     it("getQuery should return correct query parameters", () => {
@@ -71,7 +69,9 @@ describe("Typesafe Router", () => {
         component: {} as any,
       });
 
-      route.pushQuery({ foo: "bar" });
+      route.push({
+        query: { foo: "bar" },
+      });
 
       expect(mockPush).toHaveBeenCalledWith({
         path: "/test",
@@ -89,7 +89,7 @@ describe("Typesafe Router", () => {
         component: {} as any,
       });
 
-      route.pushParamsAndQuery({ foo: "bar" }, { id: "123" });
+      route.push({ params: { id: "123" }, query: { foo: "bar" } });
 
       expect(mockPush).toHaveBeenCalledWith({
         path: "/user/123",
@@ -107,7 +107,7 @@ describe("Typesafe Router", () => {
         component: {} as any,
       });
 
-      route.pushParams({ id: "123" });
+      route.push({ params: { id: "123" } });
 
       expect(mockPush).toHaveBeenCalledWith("/user/123");
     });
