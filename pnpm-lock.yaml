@@ -17,6 +17,9 @@ devDependencies:
   '@vue/test-utils':
     specifier: ^2.4.0
     version: 2.4.6
+  husky:
+    specifier: ^9.1.6
+    version: 9.1.6
   jsdom:
     specifier: ^25.0.0
     version: 25.0.0
@@ -1198,6 +1201,12 @@ packages:
       debug: 4.3.6
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /husky@9.1.6:
+    resolution: {integrity: sha512-sqbjZKK7kf44hfdE94EoX8MZNk0n7HeW37O4YrVGCF4wzgQjp+akPAkfUK5LZ6KuR/6sqeAVuXHji+RzQgOn5A==}
+    engines: {node: '>=18'}
+    hasBin: true
     dev: true
 
   /iconv-lite@0.6.3:
