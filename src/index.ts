@@ -18,32 +18,32 @@ type TypesafeRouteConfig = {
 
 type TypesafeRoute<
   Query extends LocationQueryRaw,
-  DynamicParams extends Record<string, string> = Record<string, never>
+  Params extends Record<string, string> = Record<string, never>
 > = {
   config: RouteRecordRaw;
   getQuery: () => Query;
-  getDynamicParams: () => DynamicParams;
+  getParams: () => Params;
   pushQuery: (query: Query) => void;
-  pushDynamicParamsAndQuery: (
+  pushParamsAndQuery: (
     query: Query,
-    dynamicParams: DynamicParams
+    params: Params
   ) => void;
-  pushDynamicParams: (dynamicParams: DynamicParams) => void;
+  pushParams: (params: Params) => void;
 };
 
 export function createTypesafeRoute<
   T extends LocationQueryRaw,
-  DynamicParams extends Record<string, string> = Record<string, never>
->(routeConfig: TypesafeRouteConfig): TypesafeRoute<T, DynamicParams> {
+  Params extends Record<string, string> = Record<string, never>
+>(routeConfig: TypesafeRouteConfig): TypesafeRoute<T, Params> {
   return {
     config: routeConfig,
     getQuery: () => {
       const route = useRoute();
       return route.query as T;
     },
-    getDynamicParams: () => {
+    getParams: () => {
       const route = useRoute();
-      return route.params as DynamicParams;
+      return route.params as Params;
     },
     pushQuery: (query: T) => {
       const vueRouter = window[vueRouterKey as any] as any;
@@ -52,17 +52,17 @@ export function createTypesafeRoute<
         query,
       });
     },
-    pushDynamicParamsAndQuery: (query: T, dynamicParams: DynamicParams) => {
+    pushParamsAndQuery: (query: T, params: Params) => {
       const vueRouter = window[vueRouterKey as any] as any;
-      const path = getPath(routeConfig.path, dynamicParams);
+      const path = getPath(routeConfig.path, params);
       vueRouter.push({
         path,
         query,
       });
     },
-    pushDynamicParams: (dynamicParams: DynamicParams) => {
+    pushParams: (params: Params) => {
       const vueRouter = window[vueRouterKey as any] as any;
-      const path = getPath(routeConfig.path, dynamicParams);
+      const path = getPath(routeConfig.path, params);
       vueRouter.push(path);
     },
   };

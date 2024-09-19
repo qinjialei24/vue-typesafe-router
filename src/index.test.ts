@@ -27,10 +27,10 @@ describe("Typesafe Router", () => {
 
       expect(route).toHaveProperty("config");
       expect(route).toHaveProperty("getQuery");
-      expect(route).toHaveProperty("getDynamicParams");
+      expect(route).toHaveProperty("getParams");
       expect(route).toHaveProperty("pushQuery");
-      expect(route).toHaveProperty("pushDynamicParamsAndQuery");
-      expect(route).toHaveProperty("pushDynamicParams");
+      expect(route).toHaveProperty("pushParamsAndQuery");
+      expect(route).toHaveProperty("pushParams");
     });
 
     it("getQuery should return correct query parameters", () => {
@@ -47,7 +47,7 @@ describe("Typesafe Router", () => {
       expect(route.getQuery()).toEqual({ foo: "bar" });
     });
 
-    it("getDynamicParams should return correct dynamic parameters", () => {
+    it("getParams should return correct dynamic parameters", () => {
       const mockRoute = {
         params: { id: "123" },
       };
@@ -58,7 +58,7 @@ describe("Typesafe Router", () => {
         component: {} as any,
       });
 
-      expect(route.getDynamicParams()).toEqual({ id: "123" });
+      expect(route.getParams()).toEqual({ id: "123" });
     });
 
     it("push should call vueRouter.push method", () => {
@@ -79,7 +79,7 @@ describe("Typesafe Router", () => {
       });
     });
 
-    it("pushDynamicParamsAndQuery should call vueRouter.push method with correct params", () => {
+    it("pushParamsAndQuery should call vueRouter.push method with correct params", () => {
       const mockPush = vi.fn();
       // @ts-ignore
       window[vueRouterKey] = { push: mockPush };
@@ -89,7 +89,7 @@ describe("Typesafe Router", () => {
         component: {} as any,
       });
 
-      route.pushDynamicParamsAndQuery({ foo: "bar" }, { id: "123" });
+      route.pushParamsAndQuery({ foo: "bar" }, { id: "123" });
 
       expect(mockPush).toHaveBeenCalledWith({
         path: "/user/123",
@@ -97,7 +97,7 @@ describe("Typesafe Router", () => {
       });
     });
 
-    it("pushDynamicParams should call vueRouter.push method with correct params", () => {
+    it("pushParams should call vueRouter.push method with correct params", () => {
       const mockPush = vi.fn();
       // @ts-ignore
       window[vueRouterKey] = { push: mockPush };
@@ -107,7 +107,7 @@ describe("Typesafe Router", () => {
         component: {} as any,
       });
 
-      route.pushDynamicParams({ id: "123" });
+      route.pushParams({ id: "123" });
 
       expect(mockPush).toHaveBeenCalledWith("/user/123");
     });
