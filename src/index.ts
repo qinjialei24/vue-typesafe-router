@@ -32,11 +32,18 @@ export function create<Params extends string>(
         config: routeConfig,
         push(obj: PushParams<Query, Params>) {
           const vueRouter = window[vueRouterKey as any] as any;
-          const path =
-            obj && "params" in obj
+          if (obj && typeof obj === 'object') {
+            const path = 'params' in obj
               ? getPath(routeConfig.path, obj.params)
               : getPath(routeConfig.path);
-          vueRouter.push({ path, query: obj.query });
+            if ('query' in obj) {
+              vueRouter.push({ path, query: obj.query });
+            } else {
+              vueRouter.push(path);
+            }
+          } else {
+            vueRouter.push(getPath(routeConfig.path));
+          }
         },
         getQuery: () => {
           const route = useRoute();
@@ -47,11 +54,11 @@ export function create<Params extends string>(
     },
     push(obj: PushParams<undefined, Params>) {
       const vueRouter = window[vueRouterKey as any] as any;
-      const path =
-        obj && "params" in obj
-          ? getPath(routeConfig.path, obj.params)
-          : getPath(routeConfig.path);
-      vueRouter.push(path);
+      if (obj && typeof obj === 'object' && 'params' in obj) {
+        vueRouter.push(getPath(routeConfig.path, obj.params));
+      } else {
+        vueRouter.push(getPath(routeConfig.path));
+      }
     },
     getParams,
   };

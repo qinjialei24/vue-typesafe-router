@@ -63,7 +63,7 @@ function release(type) {
 }
 
 function runTests() {
-  exec('pnpm run test:ci');
+  exec('pnpm run test');
 }
 
 function continueRelease(type) {

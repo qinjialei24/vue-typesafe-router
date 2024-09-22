@@ -22,11 +22,12 @@
   ],
   "scripts": {
     "build": "pnpm run test && rm -rf dist && vite build",
-    "test": "vitest run --typecheck",
+    "test": "pnpm run api:typeCheck && vitest run --typecheck",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage --typecheck",
     "release": "node scripts/release.js",
-    "bump": "node scripts/bump.js"
+    "bump": "node scripts/bump.js",
+    "api:typeCheck": "tsc --noEmit api/index.ts --strict false --noImplicitAny false --strictNullChecks false"
   },
   "license": "MIT",
   "packageManager": "pnpm@8.9.0+sha256.8f5264ad1d100da11a6add6bb8a94c6f1e913f9e9261b2a551fabefad2ec0fec",

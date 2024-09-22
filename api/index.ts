@@ -1,4 +1,4 @@
-import { create } from ".";
+import { create } from "../src";
 
 //params route
 const paramsRoute = create({
