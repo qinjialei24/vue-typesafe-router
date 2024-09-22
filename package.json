@@ -21,10 +21,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && vite build",
-    "test": "vitest --typecheck",
+    "build": "pnpm run test && rm -rf dist && vite build",
+    "test": "vitest run --typecheck",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage --typecheck",
-    "test:ci": "vitest run --typecheck",
     "release": "node scripts/release.js",
     "bump": "node scripts/bump.js"
   },
