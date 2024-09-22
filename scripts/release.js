@@ -7,75 +7,66 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-function exec(command) {
-  execSync(command, { stdio: 'inherit' });
-}
-
 function getCurrentVersion() {
-  const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+  const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
   return packageJson.version;
 }
 
 function updateVersion(type) {
-  exec(`npm version ${type} --no-git-tag-version`);
+  const currentVersion = getCurrentVersion();
+  const [major, minor, patch] = currentVersion.split('.').map(Number);
+  let newVersion;
+
+  switch (type) {
+    case 'patch':
+      newVersion = `${major}.${minor}.${patch + 1}`;
+      break;
+    case 'minor':
+      newVersion = `${major}.${minor + 1}.0`;
+      break;
+    case 'major':
+      newVersion = `${major + 1}.0.0`;
+      break;
+    default:
+      throw new Error('Invalid version type');
+  }
+
+  execSync(`npm version ${newVersion} --no-git-tag-version`);
+  return newVersion;
+}
+
+function runTests() {
+  console.log('Running tests...');
+  execSync('pnpm run test', { stdio: 'inherit' });
+}
+
+function buildPackage() {
+  console.log('Building package...');
+  execSync('pnpm run build', { stdio: 'inherit' });
 }
 
 function commitPackageChanges() {
   const newVersion = getCurrentVersion();
-  const commitMessage = `release: v${newVersion}`;
-  try {
-    exec('git add package.json');
-    exec(`git commit -m "${commitMessage}"`);
-  } catch (error) {
-    console.log('No changes to package.json needed.');
-  }
-}
-
-function buildPackage() {
-  exec('pnpm run build');
+  execSync('git add package.json');
+  execSync(`git commit -m "Bump version to ${newVersion}"`);
+  execSync(`git tag v${newVersion}`);
 }
 
 function publishToNpm() {
-  exec('npm publish');
+  console.log('Publishing to npm...');
+  execSync('npm publish', { stdio: 'inherit' });
 }
 
 function release(type) {
   try {
-    // 检查工作目录
-    if (!checkWorkingDirectory()) {
-      console.log('Warning: You have uncommitted changes in your working directory.');
-      rl.question('Do you want to continue with the release? (y/n): ', (answer) => {
-        if (answer.toLowerCase() !== 'y') {
-          console.log('Release cancelled.');
-          rl.close();
-          return;
-        }
-        continueRelease(type);
-      });
-    } else {
-      continueRelease(type);
-    }
-  } catch (error) {
-    console.error('Release failed:', error.message);
-    rl.close();
-    process.exit(1);
-  }
-}
-
-function runTests() {
-  exec('pnpm run test');
-}
-
-function continueRelease(type) {
-  try {
     // 拉取最新的更改
-    exec('git pull');
+    execSync('git pull');
 
     // 运行测试
     runTests();
 
     // 更新版本
-    updateVersion(type);
+    const newVersion = updateVersion(type);
 
     // 构建包
     buildPackage();
@@ -84,12 +75,11 @@ function continueRelease(type) {
     commitPackageChanges();
 
     // 推送到 Git
-    exec('git push --follow-tags');
+    execSync('git push --follow-tags');
 
     // 发布到 npm
     publishToNpm();
 
-    const newVersion = getCurrentVersion();
     console.log(`Successfully released version v${newVersion}`);
     rl.close();
   } catch (error) {
