@@ -1,48 +1,44 @@
 import { create } from ".";
 
-// 基本用法
-const basicRoute = create({
-  path: "/user/:id",
-  component: {} as any,
-});
-
-const optionalParamRoute = create({
+//params route
+const paramsRoute = create({
   path: "/post/:id",
-  component: {} as any,
+  component: {},
 });
+paramsRoute.push({ params: { id: "456" } }); // 提供id
 
-// 带有查询参数的路由
+//get params
+const params = paramsRoute.getParams();
+console.log(params.id);
+
+//query route
 const queryParamRoute = create({
   path: "/search",
-  component: {} as any,
-}).withQuery<{ q: string; page: string }>();
+  component: {},
+}).withQuery<{ name: string; id: string }>();
+queryParamRoute.push({ query: { name: "typescript", id: "1" } });
 
-// 混合使用路径参数和查询参数
+//get query
+const query = queryParamRoute.getQuery();
+console.log(query.name);
+console.log(query.id);
+
+//mixed route
 const mixedRoute = create({
   path: "/product/:category/:id",
-  component: {} as any,
-});
-
-// 使用示例
-
-// 基本路由跳转
-basicRoute.push({ params: { id: "123" } });
-
-// 可选参数路由跳转
-optionalParamRoute.push({ params: { id: "456" } }); // 提供id
-
-// 查询参数路由跳转
-queryParamRoute.push({ query: { q: "typescript", page: "1" } });
-
-// 混合参数路由跳转
+  component: {},
+}).withQuery<{ name: string; id: string }>();
 mixedRoute.push({
   params: { category: "electronics", id: "789" },
+  query: { name: "test", id: "123" },
 });
 
-// 原始示例
-const originalRoute = create({
-  path: "/test/:id",
-  component: {} as any,
-});
+//get params
+const mixedRouteParams = mixedRoute.getParams();
+console.log(mixedRouteParams.category);
+console.log(mixedRouteParams.id);
 
-originalRoute.push({ params: { id: "123" } });
+//get query
+const mixedRouteQuery = mixedRoute.getQuery();
+console.log(mixedRouteQuery.name);
+console.log(mixedRouteQuery.id);
