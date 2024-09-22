@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./dist",
+    "outDir": "./dist",
+    "strictNullChecks": true,
+    "types": [
+      "node"
+    ],
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "/Users/qinjialei/Documents/GitHub/vue-typesafe-router/node_modules/.pnpm/vitest@2.1.0_@types+node@22.5.1_jsdom@25.0.0/node_modules/vitest/dist/chunks/tsconfig.tmp.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.test.ts"
+  ],
+  "exclude": [
+    "dist",
+    "./dist"
+  ]
+}
