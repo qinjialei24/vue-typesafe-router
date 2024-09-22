@@ -130,3 +130,4 @@ dist
 .pnp.*
 /.idea/
 .DS_Store
+tsconfig.vitest-temp.json
