@@ -2,7 +2,9 @@
 
 [中文文档](./README.zh-CN.md) | [English](./README.md)
 
-在 Vue.js 3.x 中定义完全类型安全路由的最简单方法。React.js 版本也可以在这里找到 (https://github.com/qinjialei24/react-typesafe-router)。
+一种在 Vue.js 3.x 中定义类型安全路由的简单方法，从此路由传参和获取参数都是完全类型安全的。
+
+React.js 版本也可以在这里找到 (https://github.com/qinjialei24/react-typesafe-router)。
 
 ## 安装
 
