@@ -38,6 +38,9 @@ const mixedRouteParams = mixedRoute.getParams();
 console.log(mixedRouteParams.category);
 console.log(mixedRouteParams.id);
 
+// @ts-expect-error
+console.log(mixedRouteParams.id2);
+
 //get query
 const mixedRouteQuery = mixedRoute.getQuery();
 console.log(mixedRouteQuery.name);
