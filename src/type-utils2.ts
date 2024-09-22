@@ -22,7 +22,7 @@ type PushParams<Query, Params extends string> = HasParams<Params> extends true
     ? { params: PathParamsToObject<Params> }
     : { params: PathParamsToObject<Params>; query: Query }
   : Query extends undefined
-  ? {}
+  ? void
   : { query: Query };
 
 // 修改 test 函数
@@ -51,8 +51,8 @@ routeWithParamsAndQuery.push({ params: { id: "123", id2: "456" }, query: { foo: 
 // routeWithParamsAndQuery.push({ params: { id: "123", id2: "456" } }); // 错误，缺少 query
 
 const routeWithoutParams = test("/test");
-routeWithoutParams.push({}); // 正确
-// routeWithoutParams.push({ query: { foo: "bar" } }); // 错误，没有指定 query 类型
+routeWithoutParams.push(); // 正确
+// routeWithoutParams.push({}); // 错误，不应该传入任何参数
 
 const routeWithoutParamsWithQuery = test("/test").withQuery<{ foo: string }>();
 routeWithoutParamsWithQuery.push({ query: { foo: "bar" } }); // 正确
