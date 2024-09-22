@@ -34,7 +34,7 @@ import { createRouter, createWebHistory } from "vue-router";
 export const homeRoute = create({
   path: "/home",
   component: import("./Home.vue"),
-}).withQuery<{ id: string; name: string }>();
+}).defineQuery<{ id: string; name: string }>();
 
 const router = createRouter({
   history: createWebHistory(),
@@ -100,7 +100,7 @@ import { createRouter, createWebHistory } from "vue-router";
 export const homeRoute = create({
   path: "/home/:id/:name",
   component: import("./Home.vue"),
-}).withQuery<{ id: string; name: string }>();
+}).defineQuery<{ id: string; name: string }>();
 
 const router = createRouter({
   history: createWebHistory(),

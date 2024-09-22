@@ -27,16 +27,17 @@ export function create<Params extends string>(
 
   return {
     config: routeConfig,
-    withQuery<Query extends LocationQueryRaw>() {
+    defineQuery<Query extends LocationQueryRaw>() {
       return {
         config: routeConfig,
         push(obj: PushParams<Query, Params>) {
           const vueRouter = window[vueRouterKey as any] as any;
-          if (obj && typeof obj === 'object') {
-            const path = 'params' in obj
-              ? getPath(routeConfig.path, obj.params)
-              : getPath(routeConfig.path);
-            if ('query' in obj) {
+          if (obj && typeof obj === "object") {
+            const path =
+              "params" in obj
+                ? getPath(routeConfig.path, obj.params)
+                : getPath(routeConfig.path);
+            if ("query" in obj) {
               vueRouter.push({ path, query: obj.query });
             } else {
               vueRouter.push(path);
@@ -54,7 +55,7 @@ export function create<Params extends string>(
     },
     push(obj: PushParams<undefined, Params>) {
       const vueRouter = window[vueRouterKey as any] as any;
-      if (obj && typeof obj === 'object' && 'params' in obj) {
+      if (obj && typeof obj === "object" && "params" in obj) {
         vueRouter.push(getPath(routeConfig.path, obj.params));
       } else {
         vueRouter.push(getPath(routeConfig.path));

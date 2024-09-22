@@ -1,11 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import {
-  create,
-  vueRouterKey,
-  typesafeRouterPlugin,
-} from "./";
+import { create, vueRouterKey, typesafeRouterPlugin } from "./";
 import { useRoute } from "vue-router";
-import {getPath} from "./utils";
+import { getPath } from "./utils";
 
 vi.mock("vue-router", () => ({
   useRoute: vi.fn(),
@@ -23,7 +19,7 @@ describe("Typesafe Router", () => {
       const route = create({
         path: "/test",
         component: {} as any,
-      }).withQuery();
+      }).defineQuery();
 
       expect(route).toHaveProperty("config");
       expect(route).toHaveProperty("getQuery");
@@ -40,7 +36,7 @@ describe("Typesafe Router", () => {
       const route = create({
         path: "/test",
         component: {} as any,
-      }).withQuery<{foo:string}>();
+      }).defineQuery<{ foo: string }>();
 
       expect(route.getQuery()).toEqual({ foo: "bar" });
     });
@@ -67,7 +63,7 @@ describe("Typesafe Router", () => {
       const route = create({
         path: "/test",
         component: {} as any,
-      }).withQuery<{foo:string}>();
+      }).defineQuery<{ foo: string }>();
 
       route.push({
         query: { foo: "bar" },
@@ -87,8 +83,8 @@ describe("Typesafe Router", () => {
       const route = create({
         path: "/user/:id",
         component: {} as any,
-      }).withQuery<{
-        foo: "bar",
+      }).defineQuery<{
+        foo: "bar";
       }>();
 
       route.push({ params: { id: "123" }, query: { foo: "bar" } });

@@ -15,7 +15,7 @@ console.log(params.id);
 const queryParamRoute = create({
   path: "/search",
   component: {},
-}).withQuery<{ name: string; id: string }>();
+}).defineQuery<{ name: string; id: string }>();
 queryParamRoute.push({ query: { name: "typescript", id: "1" } });
 
 //get query
@@ -27,7 +27,7 @@ console.log(query.id);
 const mixedRoute = create({
   path: "/product/:category/:id",
   component: {},
-}).withQuery<{ name: string; id: string }>();
+}).defineQuery<{ name: string; id: string }>();
 mixedRoute.push({
   params: { category: "electronics", id: "789" },
   query: { name: "test", id: "123" },
