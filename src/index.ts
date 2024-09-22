@@ -4,7 +4,7 @@ import type { App, Component, DefineComponent } from "vue";
 import { PathParamsToObject, PushParams } from "./type-utils";
 import { getPath } from "./utils";
 
-const vueRouterKey = Symbol("vueRouterKey");
+export const vueRouterKey = Symbol("vueRouterKey");
 export const typesafeRouterPlugin = {
   install(app: App) {
     //@ts-ignore
