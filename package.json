@@ -22,9 +22,9 @@
   ],
   "scripts": {
     "build": "rm -rf dist && vite build",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run",
+    "test": "vitest --typecheck",
+    "test:coverage": "vitest run --coverage --typecheck",
+    "test:ci": "vitest run --typecheck",
     "release": "node scripts/release.js",
     "bump": "node scripts/bump.js"
   },
