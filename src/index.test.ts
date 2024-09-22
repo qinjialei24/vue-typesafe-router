@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
-  createTypesafeRoute,
-  getPath,
+  create,
   vueRouterKey,
   typesafeRouterPlugin,
 } from "./";
 import { useRoute } from "vue-router";
+import {getPath} from "./utils";
 
 vi.mock("vue-router", () => ({
   useRoute: vi.fn(),
@@ -18,12 +18,12 @@ describe("Typesafe Router", () => {
     delete window[vueRouterKey];
   });
 
-  describe("createTypesafeRoute", () => {
+  describe("create", () => {
     it("should create a TypesafeRoute object", () => {
-      const route = createTypesafeRoute({
+      const route = create({
         path: "/test",
         component: {} as any,
-      });
+      }).withQuery();
 
       expect(route).toHaveProperty("config");
       expect(route).toHaveProperty("getQuery");
@@ -37,10 +37,10 @@ describe("Typesafe Router", () => {
       };
       vi.mocked(useRoute).mockReturnValue(mockRoute as any);
 
-      const route = createTypesafeRoute({
+      const route = create({
         path: "/test",
         component: {} as any,
-      });
+      }).withQuery<{foo:string}>();
 
       expect(route.getQuery()).toEqual({ foo: "bar" });
     });
@@ -51,7 +51,7 @@ describe("Typesafe Router", () => {
       };
       vi.mocked(useRoute).mockReturnValue(mockRoute as any);
 
-      const route = createTypesafeRoute({
+      const route = create({
         path: "/test/:id",
         component: {} as any,
       });
@@ -64,10 +64,10 @@ describe("Typesafe Router", () => {
       // @ts-ignore
       window[vueRouterKey] = { push: mockPush };
 
-      const route = createTypesafeRoute({
+      const route = create({
         path: "/test",
         component: {} as any,
-      });
+      }).withQuery<{foo:string}>();
 
       route.push({
         query: { foo: "bar" },
@@ -84,10 +84,12 @@ describe("Typesafe Router", () => {
       // @ts-ignore
       window[vueRouterKey] = { push: mockPush };
 
-      const route = createTypesafeRoute<any, { id: string }>({
+      const route = create({
         path: "/user/:id",
         component: {} as any,
-      });
+      }).withQuery<{
+        foo: "bar",
+      }>();
 
       route.push({ params: { id: "123" }, query: { foo: "bar" } });
 
@@ -102,7 +104,7 @@ describe("Typesafe Router", () => {
       // @ts-ignore
       window[vueRouterKey] = { push: mockPush };
 
-      const route = createTypesafeRoute<any, { id: string }>({
+      const route = create({
         path: "/user/:id",
         component: {} as any,
       });
