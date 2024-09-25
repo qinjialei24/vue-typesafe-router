@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, test } from "vitest";
-import { PathParamsToObject, PushParams } from "./type-utils";
+
+import { PathParamsToObject, PushParams } from "./index";
 
 describe("Type Utils", () => {
   test("PathParamsToObject should correctly extract path parameters", () => {

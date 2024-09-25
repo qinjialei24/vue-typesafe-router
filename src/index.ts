@@ -1,8 +1,35 @@
 import type { LocationQueryRaw } from "vue-router";
 import { useRoute } from "vue-router";
 import type { App, Component, DefineComponent } from "vue";
-import { PathParamsToObject, PushParams } from "./type-utils";
 import { getPath } from "./utils";
+
+//extract the params name from path
+type ExtractPathParams<T extends string> =
+  T extends `${string}:${infer Param}/${infer Rest}`
+    ? Param | ExtractPathParams<Rest>
+    : T extends `${string}:${infer Param}`
+      ? Param
+      : never;
+
+//transform params name to object type
+export type PathParamsToObject<T extends string> = {
+  [K in ExtractPathParams<T>]: string;
+};
+
+//check if path has params
+type HasParams<T extends string> = T extends `${string}:${string}`
+  ? true
+  : false;
+
+//change PushParams type
+export type PushParams<Query, Params extends string> =
+  HasParams<Params> extends true
+    ? Query extends undefined
+      ? { params: PathParamsToObject<Params> }
+      : { params: PathParamsToObject<Params>; query: Query }
+    : Query extends undefined
+      ? void
+      : { query: Query };
 
 export const vueRouterKey = Symbol("vueRouterKey");
 export const typesafeRouterPlugin = {
@@ -18,7 +45,7 @@ type TypesafeRouteConfig<Params extends string> = {
 };
 
 export function create<Params extends string>(
-  routeConfig: TypesafeRouteConfig<Params>
+  routeConfig: TypesafeRouteConfig<Params>,
 ) {
   const getParams = () => {
     const route = useRoute();
