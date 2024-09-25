@@ -1,7 +1,7 @@
 {
   "name": "vue-typesafe-router",
   "author": "qinjialei",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "type": "module",
   "description": "The easiest way to define type safe router in Vue.",
   "exports": {
@@ -26,8 +26,8 @@
     "test": "pnpm run api:typeCheck && vitest run --typecheck",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage --typecheck",
-    "release": "node scripts/release.js",
-    "bump": "node scripts/bump.js",
+    "release": "node scripts/release.mjs",
+    "bump": "node scripts/bump.mjs",
     "api:typeCheck": "tsc --noEmit api/index.ts --strict false --noImplicitAny false --strictNullChecks false",
     "prepublishOnly": "pnpm run build",
     "lint": "eslint ."
