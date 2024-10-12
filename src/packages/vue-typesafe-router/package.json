@@ -6,6 +6,7 @@
   "description": "The easiest way to define type safe router in Vue.",
   "exports": {
     ".": {
+      "dev": "./index.ts",
       "import": "./dist/index.es.js",
       "types": "./dist/index.d.ts"
     }
