@@ -1,15 +1,7 @@
 {
-  "name": "vue-typesafe-router",
+  "private": true,
   "author": "qinjialei",
-  "version": "0.9.5",
-  "type": "module",
   "description": "The easiest way to define type safe router in Vue.",
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "keywords": [
     "vue",
     "typescript",
@@ -18,26 +10,7 @@
     "vue-router",
     "vue3"
   ],
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "pnpm run test && rm -rf dist && vite build",
-    "test": "pnpm run api:typeCheck && vitest run --typecheck",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage --typecheck",
-    "release": "node scripts/release.mjs",
-    "bump": "node scripts/bump.mjs",
-    "api:typeCheck": "tsc --noEmit api/index.ts --strict false --noImplicitAny false --strictNullChecks false",
-    "prepublishOnly": "pnpm run build",
-    "lint": "eslint ."
-  },
-  "license": "MIT",
   "packageManager": "pnpm@8.9.0+sha256.8f5264ad1d100da11a6add6bb8a94c6f1e913f9e9261b2a551fabefad2ec0fec",
-  "peerDependencies": {
-    "vue": "^3.4.0",
-    "vue-router": "^4.2.0"
-  },
   "devDependencies": {
     "@types/node": "^22.5.1",
     "@typescript-eslint/eslint-plugin": "^8.6.0",

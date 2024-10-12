@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { create, vueRouterKey, typesafeRouterPlugin } from "./";
+import { create, vueRouterKey, typesafeRouterPlugin } from "./index";
 import { useRoute } from "vue-router";
 import { getPath } from "./utils";
 

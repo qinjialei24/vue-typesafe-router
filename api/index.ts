@@ -1,4 +1,4 @@
-import { create } from "../src";
+import { create } from "../src/packages/vue-typesafe-router";
 
 //params route
 const paramsRoute = create({
