@@ -35,8 +35,8 @@
   "license": "MIT",
   "packageManager": "pnpm@8.9.0+sha256.8f5264ad1d100da11a6add6bb8a94c6f1e913f9e9261b2a551fabefad2ec0fec",
   "peerDependencies": {
-    "vue": "^3.4.0",
-    "vue-router": "^4.2.0"
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.5.1",
@@ -54,7 +54,7 @@
     "vite": "^5.0.0",
     "vite-plugin-dts": "^3.0.0",
     "vitest": "^2.1.0",
-    "vue": "^3.4.0",
-    "vue-router": "^4.2.0"
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
   }
 }
