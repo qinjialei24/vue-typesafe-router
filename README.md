@@ -2,7 +2,7 @@
 
 [中文文档](./README.zh-CN.md) | [English](./README.md)
 
-An easy way to define a typesafe route in Vue.js 3.x, you can pass and get route data with typesafe.
+The easiest way to define a typesafe route in Vue.js 3.x, you can pass and get route data with typesafe.
 
 The React.js version is also available here (https://github.com/qinjialei24/react-typesafe-router).
 
