@@ -164,6 +164,17 @@ createRouter({
 });
 ```
 
+## Todo
+
+- [ ] Support `router.replace`
+- [ ] Limit query to only `number` `string` and `boolean` type
+- [ ] Add more tests for special characters query in path
+- [ ] Auto convert type of query
+  - [ ] Number
+  - [ ] Boolean
+- [ ] Use TypeDoc to generate the docs
+- [ ] Support Vue2.x
+
 ## License
 
 MIT
