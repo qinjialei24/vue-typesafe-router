@@ -169,7 +169,6 @@ describe("Typesafe Router", () => {
       };
 
       typesafeRouterPlugin.install(mockApp as unknown as App);
-      //@ts-expect-error we only can set the window property dynamically
       // eslint-disable-next-line no-undef
       expect(window[vueRouterKey]).toEqual({ foo: "bar" });
     });
