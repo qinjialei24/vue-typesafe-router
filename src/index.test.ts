@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { create, vueRouterKey, typesafeRouterPlugin } from "./";
-import { useRoute } from "vue-router";
+import { RouteLocationNormalizedLoaded, useRoute } from "vue-router";
 import { getPath } from "./utils";
+import { App, Component } from "vue";
 
 vi.mock("vue-router", () => ({
   useRoute: vi.fn(),
@@ -10,7 +11,8 @@ vi.mock("vue-router", () => ({
 describe("Typesafe Router", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // @ts-ignore
+    //@ts-expect-error we only can set the window property dynamically
+    // eslint-disable-next-line no-undef
     delete window[vueRouterKey];
   });
 
@@ -18,7 +20,7 @@ describe("Typesafe Router", () => {
     it("should create a TypesafeRoute object", () => {
       const route = create({
         path: "/test",
-        component: {} as any,
+        component: {} as Component,
       }).defineQuery();
 
       expect(route).toHaveProperty("config");
@@ -31,11 +33,13 @@ describe("Typesafe Router", () => {
       const mockRoute = {
         query: { foo: "bar" },
       };
-      vi.mocked(useRoute).mockReturnValue(mockRoute as any);
+      vi.mocked(useRoute).mockReturnValue(
+        mockRoute as unknown as RouteLocationNormalizedLoaded
+      );
 
       const route = create({
         path: "/test",
-        component: {} as any,
+        component: {} as Component,
       }).defineQuery<{ foo: string }>();
 
       expect(route.getQuery()).toEqual({ foo: "bar" });
@@ -45,11 +49,13 @@ describe("Typesafe Router", () => {
       const mockRoute = {
         params: { id: "123" },
       };
-      vi.mocked(useRoute).mockReturnValue(mockRoute as any);
+      vi.mocked(useRoute).mockReturnValue(
+        mockRoute as unknown as RouteLocationNormalizedLoaded
+      );
 
       const route = create({
         path: "/test/:id",
-        component: {} as any,
+        component: {} as Component,
       });
 
       expect(route.getParams()).toEqual({ id: "123" });
@@ -57,12 +63,13 @@ describe("Typesafe Router", () => {
 
     it("push should call vueRouter.push method", () => {
       const mockPush = vi.fn();
-      // @ts-ignore
+      //@ts-expect-error we only can set the window property dynamically
+      // eslint-disable-next-line no-undef
       window[vueRouterKey] = { push: mockPush };
 
       const route = create({
         path: "/test",
-        component: {} as any,
+        component: {} as Component,
       }).defineQuery<{ foo: string }>();
 
       route.push({
@@ -77,12 +84,13 @@ describe("Typesafe Router", () => {
 
     it("pushParamsAndQuery should call vueRouter.push method with correct params", () => {
       const mockPush = vi.fn();
-      // @ts-ignore
+      //@ts-expect-error we only can set the window property dynamically
+      // eslint-disable-next-line no-undef
       window[vueRouterKey] = { push: mockPush };
 
       const route = create({
         path: "/user/:id",
-        component: {} as any,
+        component: {} as Component,
       }).defineQuery<{
         foo: "bar";
       }>();
@@ -97,12 +105,13 @@ describe("Typesafe Router", () => {
 
     it("pushParams should call vueRouter.push method with correct params", () => {
       const mockPush = vi.fn();
-      // @ts-ignore
+      //@ts-expect-error we only can set the window property dynamically
+      // eslint-disable-next-line no-undef
       window[vueRouterKey] = { push: mockPush };
 
       const route = create({
         path: "/user/:id",
-        component: {} as any,
+        component: {} as Component,
       });
 
       route.push({ params: { id: "123" } });
@@ -159,9 +168,9 @@ describe("Typesafe Router", () => {
         },
       };
 
-      typesafeRouterPlugin.install(mockApp as any);
-
-      // @ts-ignore
+      typesafeRouterPlugin.install(mockApp as unknown as App);
+      //@ts-expect-error we only can set the window property dynamically
+      // eslint-disable-next-line no-undef
       expect(window[vueRouterKey]).toEqual({ foo: "bar" });
     });
   });
