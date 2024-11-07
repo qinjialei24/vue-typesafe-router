@@ -8,6 +8,7 @@ export default defineConfig({
     vue(),
     dts({
       insertTypesEntry: true,
+      rollupTypes: true, // add all types to one file
       exclude: ["src/**/*.test.ts","src/**/*.*-d.ts"],
     }),
   ],
