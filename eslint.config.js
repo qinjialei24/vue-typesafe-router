@@ -1,5 +1,4 @@
 import js from "@eslint/js";
-import eslintPluginVue from "eslint-plugin-vue";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tseslintParser from "@typescript-eslint/parser";
 
@@ -15,16 +14,21 @@ export default [
       parserOptions: {
         project: "./tsconfig.json",
       },
+      globals: {
+        window: true,
+      },
+    },
+    env: {
+      browser: true,
+      node: false,
     },
     rules: {
       ...tseslint.configs.recommended.rules,
-      // 在这里添加TypeScript文件的自定义规则
     },
   },
-  // 全局规则
   {
     rules: {
-      // 在这里添加适用于所有文件的全局规则
+      // 全局规则
     },
   },
 ];

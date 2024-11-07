@@ -2,6 +2,13 @@ import type { LocationQueryRaw, Router } from "vue-router";
 import { useRoute } from "vue-router";
 import type { App, Component, DefineComponent } from "vue";
 import { getPath } from "./utils";
+export const vueRouterKey = Symbol("vueRouterKey");
+
+declare global {
+  interface Window {
+    [vueRouterKey]: Router;
+  }
+}
 
 //extract the params name from path
 type ExtractPathParams<T extends string> =
@@ -21,7 +28,6 @@ type HasParams<T extends string> = T extends `${string}:${string}`
   ? true
   : false;
 
-//change PushParams type
 export type PushParams<Query, Params extends string> =
   HasParams<Params> extends true
     ? Query extends undefined
@@ -31,11 +37,8 @@ export type PushParams<Query, Params extends string> =
       ? void
       : { query: Query };
 
-export const vueRouterKey = Symbol("vueRouterKey");
 export const typesafeRouterPlugin = {
   install(app: App) {
-    //@ts-expect-error we only can set the window property dynamically
-    // eslint-disable-next-line no-undef
     window[vueRouterKey] = app.config.globalProperties.$router;
   },
 };
@@ -59,9 +62,7 @@ export function create<Params extends string>(
       return {
         config: routeConfig,
         push(obj: PushParams<Query, Params>) {
-          //@ts-expect-error we only can set the window property dynamically
-          // eslint-disable-next-line no-undef
-          const vueRouter = window[vueRouterKey] as Router;
+          const vueRouter = window[vueRouterKey];
           if (obj && typeof obj === "object") {
             const path =
               "params" in obj
@@ -84,9 +85,7 @@ export function create<Params extends string>(
       };
     },
     push(obj: PushParams<undefined, Params>) {
-      //@ts-expect-error we only can set the window property dynamically
-      // eslint-disable-next-line no-undef
-      const vueRouter = window[vueRouterKey] as Router;
+      const vueRouter = window[vueRouterKey];
       if (obj && typeof obj === "object" && "params" in obj) {
         vueRouter.push(getPath(routeConfig.path, obj.params));
       } else {
