@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { execSync } from "child_process";
 import readline from "readline";
 import fs from "fs";
@@ -91,8 +92,8 @@ function release(type) {
   }
 }
 
-rl.question("Enter release type (patch/minor/major): ", (answer) => {
-  if (["patch", "minor", "major"].includes(answer)) {
+rl.question("Enter release type (patch/minor/major/p/m): ", (answer) => {
+  if (["patch", "minor", "major", "p", "m"].includes(answer)) {
     release(answer);
   } else {
     console.log("Invalid release type. Please enter patch, minor, or major.");
