@@ -19,9 +19,11 @@ function updateVersion(type) {
 
   switch (type) {
     case "patch":
+    case "p":
       newVersion = `${major}.${minor}.${patch + 1}`;
       break;
     case "minor":
+    case "m":
       newVersion = `${major}.${minor + 1}.0`;
       break;
     case "major":
