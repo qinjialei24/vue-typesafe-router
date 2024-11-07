@@ -1,4 +1,4 @@
-import type { LocationQueryRaw } from "vue-router";
+import type { LocationQueryRaw, Router } from "vue-router";
 import { useRoute } from "vue-router";
 import type { App, Component, DefineComponent } from "vue";
 import { getPath } from "./utils";
@@ -34,7 +34,8 @@ export type PushParams<Query, Params extends string> =
 export const vueRouterKey = Symbol("vueRouterKey");
 export const typesafeRouterPlugin = {
   install(app: App) {
-    //@ts-ignore
+    //@ts-expect-error we only can set the window property dynamically
+    // eslint-disable-next-line no-undef
     window[vueRouterKey] = app.config.globalProperties.$router;
   },
 };
@@ -45,7 +46,7 @@ type TypesafeRouteConfig<Params extends string> = {
 };
 
 export function create<Params extends string>(
-  routeConfig: TypesafeRouteConfig<Params>,
+  routeConfig: TypesafeRouteConfig<Params>
 ) {
   const getParams = () => {
     const route = useRoute();
@@ -58,7 +59,9 @@ export function create<Params extends string>(
       return {
         config: routeConfig,
         push(obj: PushParams<Query, Params>) {
-          const vueRouter = window[vueRouterKey as any] as any;
+          //@ts-expect-error we only can set the window property dynamically
+          // eslint-disable-next-line no-undef
+          const vueRouter = window[vueRouterKey] as Router;
           if (obj && typeof obj === "object") {
             const path =
               "params" in obj
@@ -81,7 +84,9 @@ export function create<Params extends string>(
       };
     },
     push(obj: PushParams<undefined, Params>) {
-      const vueRouter = window[vueRouterKey as any] as any;
+      //@ts-expect-error we only can set the window property dynamically
+      // eslint-disable-next-line no-undef
+      const vueRouter = window[vueRouterKey] as Router;
       if (obj && typeof obj === "object" && "params" in obj) {
         vueRouter.push(getPath(routeConfig.path, obj.params));
       } else {
