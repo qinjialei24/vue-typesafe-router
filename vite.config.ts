@@ -12,12 +12,12 @@ export default defineConfig({
     }),
   ],
   build: {
-    minify: false, // 禁用压缩
+    minify: true,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "VueTypesafeRouter",
       fileName: (format) => `index.${format}.js`,
-      formats: ["es"],
+      formats: ["es", "cjs"],
     },
     rollupOptions: {
       external: ["vue", "vue-router"],
