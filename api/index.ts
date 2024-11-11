@@ -11,16 +11,21 @@ paramsRoute.push({ params: { id: "456" } }); // 提供id
 const params = paramsRoute.getParams();
 console.log(params.id);
 
+enum Gender {
+  Male = "male",
+  Female = "female",
+}
+
 //query route
 const queryParamRoute = create({
   path: "/search",
   component: {},
-}).defineQuery<{ name: string; id: string }>();
-queryParamRoute.push({ query: { name: "typescript", id: "1" } });
+}).defineQuery<{ gender: Gender; id: number }>();
+queryParamRoute.push({ query: { gender: Gender.Male, id: 1 } });
 
 //get query
 const query = queryParamRoute.getQuery();
-console.log(query.name);
+console.log(query.gender);
 console.log(query.id);
 
 //mixed route
