@@ -173,4 +173,52 @@ describe("Typesafe Router", () => {
       expect(window[vueRouterKey]).toEqual({ foo: "bar" });
     });
   });
+
+  describe("replace", () => {
+    it("should call vueRouter.replace method with correct params", () => {
+      const mockReplace = vi.fn();
+      //@ts-expect-error we only can set the window property dynamically
+      window[vueRouterKey] = { replace: mockReplace };
+
+      const route = create({
+        path: "/user/:id",
+        component: {} as Component,
+      });
+
+      route.replace({ params: { id: "123" } });
+
+      expect(mockReplace).toHaveBeenCalledWith("/user/123");
+    });
+
+    it("should call vueRouter.replace method with path only when no params provided", () => {
+      const mockReplace = vi.fn();
+      //@ts-expect-error we only can set the window property dynamically
+      window[vueRouterKey] = { replace: mockReplace };
+
+      const route = create({
+        path: "/user",
+        component: {} as Component,
+      });
+
+      route.replace();
+
+      expect(mockReplace).toHaveBeenCalledWith("/user");
+    });
+
+    it("should call vueRouter.replace method with path only when params is empty object", () => {
+      const mockReplace = vi.fn();
+      //@ts-expect-error we only can set the window property dynamically
+      window[vueRouterKey] = { replace: mockReplace };
+
+      const route = create({
+        path: "/user",
+        component: {} as Component,
+      });
+
+      //@ts-expect-error
+      route.replace({});
+
+      expect(mockReplace).toHaveBeenCalledWith("/user");
+    });
+  });
 });

@@ -92,6 +92,14 @@ export function create<Params extends string>(
         vueRouter.push(getPath(routeConfig.path));
       }
     },
+    replace(obj: PushParams<undefined, Params>) {
+      const vueRouter = window[vueRouterKey];
+      if (obj && typeof obj === "object" && "params" in obj) {
+        vueRouter.replace(getPath(routeConfig.path, obj.params));
+      } else {
+        vueRouter.replace(getPath(routeConfig.path));
+      }
+    },
     getParams,
   };
 }
